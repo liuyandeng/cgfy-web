@@ -1,0 +1,52 @@
+<html>
+<head>
+<meta charset=utf-8 />
+<title>ZY So Player</title>
+  <link href="https://unpkg.com/video.js/dist/video-js.css" rel="stylesheet">
+  <style type="text/css">
+    .video-js .vjs-time-control{display:block;}
+    .video-js .vjs-remaining-time{display: none;}
+    .vjs-paused .vjs-big-play-button,
+    .vjs-paused.vjs-has-started .vjs-big-play-button {
+        display: block;
+    }
+  </style>
+</head>
+<body>
+  <video-js id="my_video_1" class="video-js vjs-big-play-centered" controls preload="auto" width="640" height="268"></video-js>
+  
+  <script src="https://unpkg.com/video.js/dist/video.js"></script>
+  <script src="https://unpkg.com/@videojs/http-streaming/dist/videojs-http-streaming.js"></script>
+  
+  <script>
+    var options = {
+      language: 'zh',
+      controlBar: {
+        playToggle: true,
+        // 使用children的形式可以控制每一个控件的位置，以及显示与否
+        children: [
+          {name: 'playToggle'}, // 播放按钮
+          {name: 'currentTimeDisplay'}, // 当前已播放时间
+          {name: 'progressControl'}, // 播放进度条
+          {name: 'durationDisplay'}, // 总时间
+          { // 倍数播放
+            name: 'playbackRateMenuButton',
+            'playbackRates': [0.5, 1, 1.5, 2, 3, 5, 8]
+          },
+          {
+            name: 'volumePanel', // 音量控制
+            inline: false, // 不使用水平方式
+          },
+          {name: 'pictureInPictureToggle'}, //画中画
+          {name: 'FullscreenToggle'} // 全屏
+        ]
+      },
+      sources: [{
+        src: 'https://chaoqing.dong-zuida.com/20201224/98_c6bffaa3/index.m3u8',
+        type: 'application/x-mpegURL'
+      }]
+    };
+    var player = videojs('my_video_1', options);
+  </script>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>videojs演示</title>
+    <link href="../plugins/videojs711.1/video-js.min.css" rel="stylesheet">
+    <script src="../plugins/videojs711.1/video.min.js"></script>
+
+</head>
+<body>
+    <video
+             id="my-player"
+             class="video-js"
+             controls
+             preload="auto"
+             poster="http://liuyandeng.gitee.io/gitpages/img/jiucai.jpg"
+             data-setup='{}'
+             width="1000"
+             height="500">
+
+    <source src="http://vjs.zencdn.net/v/oceans.mp4" type="video/mp4"></source>
+</video>
+
+<!--https://www.cnblogs.com/loveamyforever/p/7047800.html-->
+<!--https://www.runoob.com/html/html5-video.html-->
+<!--https://blog.csdn.net/a0405221/article/details/80923090-->
+<!--https://github.com/videojs/video.js/blob/main/docs/guides/options.md-->
+<script type="application/javascript">
+    var options = {
+        language: 'zh',
+        controlBar: {
+            playToggle: true,
+            // 使用children的形式可以控制每一个控件的位置，以及显示与否
+            children: [
+                {name: 'playToggle'}, // 播放按钮
+                {name: 'currentTimeDisplay'}, // 当前已播放时间
+                {name: 'progressControl'}, // 播放进度条
+                {name: 'durationDisplay'}, // 总时间
+                { // 倍数播放
+                    name: 'playbackRateMenuButton',
+                    'playbackRates': [0.5, 1, 1.5, 2, 3, 5, 8]
+                },
+                {
+                    name: 'volumePanel', // 音量控制
+                    inline: false, // 不使用水平方式
+                },
+                {name: 'pictureInPictureToggle'}, //画中画
+                {name: 'FullscreenToggle'} // 全屏
+            ]
+        }
+        // sources: [{
+        //     src: 'https://chaoqing.dong-zuida.com/20201224/98_c6bffaa3/index.m3u8',
+        //     type: 'application/x-mpegURL'
+        // }]
+    };
+    var player = videojs('my-player', options, function onPlayerReady() {
+        videojs.log('Your player is ready!');
+        this.play();
+        this.on('ended', function () {
+            alert("播放完毕,视频总时长"+this.duration());
+        });
+        this.on('pause', function(obj) {
+            var a=this.currentTime()
+            alert("当前播放时长:"+a);
+        });
+    });
+</script>
+</body>
+</html>
