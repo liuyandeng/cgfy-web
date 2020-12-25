@@ -65,7 +65,6 @@
             var a=this.currentTime()
             alert("当前播放时长:"+a);
             Cookie.add('admin',a,1)
-            alert(Cookie.get('admin'));
         });
         this.currentTime(Cookie.get('admin'))//续播
     });
