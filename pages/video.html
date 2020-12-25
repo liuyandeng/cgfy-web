@@ -5,6 +5,7 @@
     <title>videojs演示</title>
     <link href="../plugins/videojs711.1/video-js.min.css" rel="stylesheet">
     <script src="../plugins/videojs711.1/video.min.js"></script>
+    <script src="../js/cookie.js"></script>
 
 </head>
 <body>
@@ -55,6 +56,7 @@
     };
     var player = videojs('my-player', options, function onPlayerReady() {
         videojs.log('Your player is ready!');
+
         this.play();
         this.on('ended', function () {
             alert("播放完毕,视频总时长"+this.duration());
@@ -62,7 +64,10 @@
         this.on('pause', function(obj) {
             var a=this.currentTime()
             alert("当前播放时长:"+a);
+            Cookie.add('admin',a,1)
+            alert(Cookie.get('admin'));
         });
+        this.currentTime(Cookie.get('admin'))//续播
     });
 </script>
 </body>
