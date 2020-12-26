@@ -7,4 +7,4 @@
 
 ## 相关优秀项目
 - [Bootstrap项目hplus](https://gitee.com/hplus_admin/hplus)
-
+- [播放器videojs](https://github.com/videojs/video.js)

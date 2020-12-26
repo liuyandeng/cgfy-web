@@ -5,10 +5,13 @@
     <title>videojs演示</title>
     <link href="../plugins/videojs711.1/video-js.min.css" rel="stylesheet">
     <script src="../plugins/videojs711.1/video.min.js"></script>
+    <script src="../plugins/videojs711.1/lang/zh-CN.js"></script>
+    <script src="../hplus/js/jquery.min.js"></script>
     <script src="../js/cookie.js"></script>
 
 </head>
 <body>
+<p>播放状态:<span id="status" style="font-weight: bold;color: #0e9aef">加载中...</span></p>
     <video
              id="my-player"
              class="video-js"
@@ -22,15 +25,13 @@
     <source src="http://vjs.zencdn.net/v/oceans.mp4" type="video/mp4"></source>
 </video>
 
-<!--https://www.cnblogs.com/loveamyforever/p/7047800.html-->
-<!--https://www.runoob.com/html/html5-video.html-->
-<!--https://blog.csdn.net/a0405221/article/details/80923090-->
-<!--https://github.com/videojs/video.js/blob/main/docs/guides/options.md-->
+
 <script type="application/javascript">
     var options = {
-        language: 'zh',
+        language: 'zh-CN',
         controlBar: {
             playToggle: true,
+            loop: true,
             // 使用children的形式可以控制每一个控件的位置，以及显示与否
             children: [
                 {name: 'playToggle'}, // 播放按钮
@@ -39,7 +40,7 @@
                 {name: 'durationDisplay'}, // 总时间
                 { // 倍数播放
                     name: 'playbackRateMenuButton',
-                    'playbackRates': [0.5, 1, 1.5, 2, 3, 5, 8]
+                    'playbackRates': [0.5, 1, 1.5, 2]
                 },
                 {
                     name: 'volumePanel', // 音量控制
@@ -56,14 +57,18 @@
     };
     var player = videojs('my-player', options, function onPlayerReady() {
         videojs.log('Your player is ready!');
-
+        $("#status").html("加载完毕")
         this.play();
+
+        this.on('play', function () {
+            $("#status").html("播放中");
+        });
         this.on('ended', function () {
-            alert("播放完毕,视频总时长"+this.duration());
+            $("#status").html("播放完毕,视频总时长:"+this.duration())
+
         });
         this.on('pause', function(obj) {
-            var a=this.currentTime()
-            alert("当前播放时长:"+a);
+            $("#status").html("暂停,当前播放时长:"+this.currentTime())
             Cookie.add('admin',a,1)
         });
         this.currentTime(Cookie.get('admin'))//续播
