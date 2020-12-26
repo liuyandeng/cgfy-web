@@ -68,8 +68,9 @@
 
         });
         this.on('pause', function(obj) {
-            $("#status").html("暂停,当前播放时长:"+this.currentTime())
-            Cookie.add('admin',a,1)
+            var time=this.currentTime();
+            $("#status").html("暂停,当前播放时长:"+time)
+            Cookie.add('admin',time,1)
         });
         this.currentTime(Cookie.get('admin'))//续播
     });
