@@ -1,7 +1,8 @@
-# cgfy-vue-ui
-本项目基于[hplus](https://gitee.com/hplus_admin/hplus)修改,用来交流学习,一切资料还以原项目为参考
+# cgfy-web
+集成前端实用小功能
 
-[演示地址](http://liuyandeng.gitee.io/cgfy-html-ui)
+- [弹框树-演示](https://liuyandeng.github.io/cgfy-web/pages/layerz-tree.html)
+- [播放器-演示](https://liuyandeng.github.io/cgfy-web/pages/video.html)
 
 
 
