@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<HTML>
+<HEAD>
+	<TITLE> ZTREE DEMO - noIcon </TITLE>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<!--<link rel="stylesheet" href="css/demo.css" type="text/css">-->
+	<link rel="stylesheet" href="../plugins/zTree_v3/css/zTreeStyle/zTreeStyle.css" type="text/css">
+	<script type="text/javascript" src="../js/jquery-3.2.1.js"></script>
+	<script src="../plugins/layer/layer.js"></script>
+	<script type="text/javascript" src="../js/tree-search.js"></script>
+	<script type="text/javascript" src="../plugins/zTree_v3/js/jquery.ztree.core.js"></script>
+	<script type="text/javascript" src="../plugins/zTree_v3/js/jquery.ztree.excheck.js"></script>
+	<script type="text/javascript" src="../plugins/zTree_v3/js/jquery.ztree.exhide.js"></script>
+	<script type="text/javascript">
+		function zTreeOnClick(event, treeId, treeNode) {
+			//$("#timing").html($("#Rtime").val());
+			var name=treeNode.name;
+			alert("你点击了："+name);
+		}
+		
+		var setting = {
+			callback: {
+				onClick: zTreeOnClick
+			},
+			view: {
+				fontCss: setFontCss
+			},
+			data: {
+				simpleData: {
+					enable: true
+				}
+			},
+			check: {
+			    enable: true,
+			    chkStyle: "radio",
+			    radioType: "level"
+			}
+		};
+
+		var zNodes =[
+		    { id:1, pId:0, name:"can check 1", open:true},
+		    { id:11, pId:1, name:"can check 1-1", open:true},
+		    { id:111, pId:11, name:"no radio 1-1-1", nocheck:true},
+		    { id:112, pId:11, name:"can check 1-1-2"},
+		    { id:12, pId:1, name:"no radio 1-2", nocheck:true, open:true},
+		    { id:121, pId:12, name:"no radio 1-2-1"},
+		    { id:122, pId:12, name:"no radio 1-2-2"},
+		    { id:2, pId:0, name:"can check 2", checked:true, open:true},
+		    { id:21, pId:2, name:"can check 2-1"},
+		    { id:22, pId:2, name:"王五", open:true},
+		    { id:221, pId:22, name:"李四", checked:true},
+		    { id:222, pId:22, name:"张三"},
+		    { id:23, pId:2, name:"刘彦登"}
+		];
+
+		$(document).ready(function(){
+			$.ajax({
+				url: "../doc/response_simple.json",//json文件位置
+				type: "GET",//请求方式为get
+				dataType: "json", //返回数据格式为json
+				success: function(data) {//请求成功完成后要执行的方法
+					zNodes=data.data
+					$.fn.zTree.init($("#treeDemo"), setting, zNodes);
+					document.getElementById("key").value = ""; //清空搜索框中的内容
+					//绑定事件
+					key = $("#key");
+					key.bind("focus", focusKey)
+							.bind("blur", blurKey)
+							.bind("propertychange", searchNode) //property(属性)change(改变)的时候，触发事件
+							.bind("input", searchNode);
+				}
+			})
+
+		});
+		
+		
+		var index;  // 命名layer弹出层
+		openLayer = function () {
+		    index = layer.open({
+		        type: 1,
+		        area: ['600px', '360px'],
+		        shadeClose: true, //点击遮罩关闭
+		        content: $('.content_wrap')
+		    });
+		}
+		closeLayer = function () {
+		    // 关闭layer弹出层
+		    layer.close(index)
+		}
+		//-->
+	</script>
+
+</HEAD>
+<BODY>
+	<div class="content_wrap" >
+	<div class="zTreeDemoBackground left">
+		搜索：<input type="text" id="key" class="empty" style="width: 80px;margin-left: 3px;font-weight: normal;"/>
+		<ul id="treeDemo" class="ztree"></ul>
+	</div>
+</BODY>
+</HTML>
