@@ -21,8 +21,13 @@
 				showColumns: true,
 				pageSize:15,
 				pageList: [20, 50, 100, 200, 500],
-				// height: '100%',
+				height: $(window).height(), //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
 				pageNumber:1,
+				striped: true,//是否显示行间隔色
+				columns: [
+					{field:"id",title:"单词",sortable:"true"},
+					{field:"name",title:"翻译"},
+				],
 				formatNoMatches: function(){
 					return '无符合条件的记录';
 				},
@@ -35,15 +40,7 @@
 </head>
 
 <body>
-<table id="exampleTableEvents"  data-mobile-responsive="true"   >
-	<thead>
-	<tr>
-		<th data-field="state" data-radio="true"></th>
-		<th data-field="id" data-sortable="true">单词</th>
-		<th data-field="name">翻译</th>
-	</tr>
-	</thead>
-</table>
+<table id="exampleTableEvents"  data-mobile-responsive="true" data-card-view="true"></table>
 
 
 </body>
