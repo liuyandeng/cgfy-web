@@ -9,6 +9,7 @@
 	<script src="../plugins/bootstrap_3.4.1/js/bootstrap.min.js"></script>
 	<script src="../plugins/bootstrap_table/bootstrap-table.min.js"></script>
 	<script src="../plugins/bootstrap_table/locale/bootstrap-table-zh-CN.min.js"></script>
+	<script src="../plugins/layer/layer.js"></script>
 	<script>
 		$(function (){
 			$('#exampleTableEvents').bootstrapTable({
@@ -26,7 +27,7 @@
 					return '无符合条件的记录';
 				},
 				onClickRow:function(row){
-					alert(row.name);
+					layer.msg(row.name);
 				},
 			});
 		})
@@ -34,11 +35,11 @@
 </head>
 
 <body>
-<table id="exampleTableEvents" data-height="400" data-mobile-responsive="true">
+<table id="exampleTableEvents" data-height="400" data-mobile-responsive="true"   >
 	<thead>
 	<tr>
-		<th data-field="state" data-checkbox="false"></th>
-		<th data-field="id">单词</th>
+		<th data-field="state" data-radio="true"></th>
+		<th data-field="id" data-sortable="true">单词</th>
 		<th data-field="name">翻译</th>
 	</tr>
 	</thead>
