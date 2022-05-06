@@ -56,7 +56,7 @@ function updateNodes(highlight) {
 
 	//设置颜色
 	function setFontCss(treeId, treeNode) {  
-	    return (!!treeNode.highlight) ? {color:"#00ff66", "font-weight":"bold"} : {color:"#333", "font-weight":"normal"};  
+	    return (!!treeNode.highlight) ? {color:"#ff0015", "font-weight":"bold"} : {color:"#333", "font-weight":"normal"};
 	}  
 
 	function showIconForTree(treeId, treeNode) {
