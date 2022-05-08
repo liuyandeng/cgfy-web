@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>下拉框插件</title>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<!--<link rel="stylesheet" href="css/demo.css" type="text/css">-->
+	<link rel="stylesheet" href="../plugins/select2/css/select2.min.css" type="text/css">
+	<script type="text/javascript" src="../js/jquery-3.2.1.js"></script>
+	<script src="../plugins/select2/js/select2.min.js"></script>
+
+	<script type="text/javascript">
+		//在Javascript中（external.js资源或<script>标记）
+		$(document).ready(function() {
+			$('.js-example-basic-single').select2();
+			$('.js-example-basic-multiple').select2();
+		});
+		function getResult(){
+			var select1=$(".js-example-basic-single").val();
+			var select2=$(".js-example-basic-multiple").val();
+			alert("单选框的值:"+select1+",多选框的值:"+select2)
+		}
+	</script>
+
+</head>
+
+<body>
+
+基础下拉选择:
+<select class="js-example-basic-single" name="state" data-width="200px">
+	<option value="a">a</option>
+	<option value="b">b</option>
+	<option value="c">c</option>
+	<option value="d">d</option>
+	<option value="e">e</option>
+	<option value="f">f</option>
+	<option value="g">g</option>
+</select>
+
+多选下拉选择
+<select class="js-example-basic-multiple" name="states[]" multiple="multiple"  data-width="200px">
+	<option value="a">a</option>
+	<option value="b">b</option>
+	<option value="c">c</option>
+	<option value="d">d</option>
+	<option value="e">e</option>
+	<option value="f">f</option>
+	<option value="g">g</option>
+</select>
+
+<input type="button" value="结果" onclick="getResult()">
+
+</body>
+</html>
