@@ -9,24 +9,32 @@
 
 <body>
 <h3>通过Object.defineProperty实现双向数据绑定</h3>
-<input type="text" id="bindinput" />
+<input type="text" id="bindinput"/>
 <h3 id="app"></h3>
 <script>
-   /* https://www.cnblogs.com/tugenhua0707/p/7471381.html*/
+    /* https://www.cnblogs.com/tugenhua0707/p/7471381.html
+    * https://www.cnblogs.com/tugenhua0707/p/7465494.html
+    * Object.defineProperty() 方法直接在一个对象上定义一个新属性，或者修改一个已经存在的属性， 并返回这个对象。
+    *基本语法：Object.defineProperty(obj, prop, descriptor)
+    *@param obj 【必须】目标对象
+    *@param prop【必须】新增或修改的属性名字
+    *@param descriptor 属性描述符。
+    *属性描述符 包括两种形式：数据描述符和存取描述符。数据描述符是一个拥有可写或不可写值的属性。存取描述符是由一对getter-setter函数功能来描述的属性。
+    *但是该两者不能同时存在，描述符只能是其中之一。
+    * */
     var obj = {};
     var inputVal = document.getElementById("bindinput");
     var div = document.getElementById("app");
     Object.defineProperty(obj, "name", {
-        set: function(newVal) {
+        set: function (newVal) {
             inputVal.value = newVal;
             div.innerHTML = newVal;
         }
     });
-    inputVal.addEventListener('input', function(e){
+    inputVal.addEventListener('input', function (e) {
         obj.name = e.target.value;
     });
 </script>
-
 
 
 <h3>通过Proxy数据代理实现双向数据绑定</h3>
@@ -36,7 +44,7 @@
 
 <script>
     /*https://blog.csdn.net/qweeryyioop/article/details/121760685*/
-    const data = { text: 'hello' }
+    const data = {text: 'hello'}
     const myTest = new Proxy(data, {
         get(target, prop) {
             myTest.text = target[prop];
@@ -48,7 +56,7 @@
                 target[prop] = value
                 document.getElementById('app2').innerHTML = value
                 return true;
-            }else{
+            } else {
                 return false;
             }
         }
