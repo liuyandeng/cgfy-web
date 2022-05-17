@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>双向绑定</title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <script type="text/javascript" src="../js/jquery-3.2.1.js"></script>
+
+</head>
+
+<body>
+<h3>通过Object.defineProperty实现双向数据绑定</h3>
+<input type="text" id="bindinput" />
+<h3 id="app"></h3>
+<script>
+   /* https://www.cnblogs.com/tugenhua0707/p/7471381.html*/
+    var obj = {};
+    var inputVal = document.getElementById("bindinput");
+    var div = document.getElementById("app");
+    Object.defineProperty(obj, "name", {
+        set: function(newVal) {
+            inputVal.value = newVal;
+            div.innerHTML = newVal;
+        }
+    });
+    inputVal.addEventListener('input', function(e){
+        obj.name = e.target.value;
+    });
+</script>
+
+
+
+<h3>通过Proxy数据代理实现双向数据绑定</h3>
+<input type="text" id="bindinput2"/>
+<h3 id="app2"></h3>
+</body>
+
+<script>
+    /*https://blog.csdn.net/qweeryyioop/article/details/121760685*/
+    const data = { text: 'hello' }
+    const myTest = new Proxy(data, {
+        get(target, prop) {
+            myTest.text = target[prop];
+            document.getElementById('bindinput2').value = target[prop]
+            return true
+        },
+        set: function (target, prop, value) {
+            if (prop === 'text') {
+                target[prop] = value
+                document.getElementById('app2').innerHTML = value
+                return true;
+            }else{
+                return false;
+            }
+        }
+    });
+    myTest.text
+    document.getElementById('bindinput2').addEventListener('input', e => myTest.text = e.target.value)
+</script>
+</html>
