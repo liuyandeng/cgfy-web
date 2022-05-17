@@ -8,19 +8,50 @@
 </head>
 
 <body>
+<div><input type="checkbox" id="checkbox" onchange="change(this)" /><span>张三</span></div>
+<h3 id="selected"></h3>
+<script>
+    var object = {};
+    var checkboxVal = document.getElementById("checkbox");
+    var selected = document.getElementById("selected");
+    Object.defineProperty(object, "name", {
+        set: function (newVal) {
+            checkboxVal.value = newVal;
+            selected.innerHTML = newVal;
+        }
+    });
+    checkboxVal.addEventListener('change', function (e) {
+        object.name = e.target.value;
+    });
+
+</script>
+
+
+
 <h3>通过Object.defineProperty实现双向数据绑定</h3>
 <input type="text" id="bindinput"/>
 <h3 id="app"></h3>
 <script>
     /* https://www.cnblogs.com/tugenhua0707/p/7471381.html
     * https://www.cnblogs.com/tugenhua0707/p/7465494.html
+    *https://blog.csdn.net/weixin_46726346/article/details/115913752
     * Object.defineProperty() 方法直接在一个对象上定义一个新属性，或者修改一个已经存在的属性， 并返回这个对象。
     *基本语法：Object.defineProperty(obj, prop, descriptor)
     *@param obj 【必须】目标对象
     *@param prop【必须】新增或修改的属性名字
-    *@param descriptor 属性描述符。
-    *属性描述符 包括两种形式：数据描述符和存取描述符。数据描述符是一个拥有可写或不可写值的属性。存取描述符是由一对getter-setter函数功能来描述的属性。
-    *但是该两者不能同时存在，描述符只能是其中之一。
+    *@param descriptor 属性描述符。属性描述符 包括两种形式：数据描述符和存取描述符。数据描述符是一个拥有可写或不可写值的属性。存取描述符是由一对getter-setter函数功能来描述的属性。但是该两者不能同时存在，描述符只能是其中之一。
+    *
+    *数据描述符和存取描述符均具有以下可选键值：
+    * 数据描述符:
+    *    1.configurable:表示能否通过delete删除属性从而重新定义属性，能否修改属性的特性，或者能否把属性修改为访问器属性，默认值为true。
+    *    2.enumerable：表示能否通过for in循环访问属性，默认值为true
+    *    3.writable：表示能否修改属性的值。默认值为true。
+    *    4.value：包含这个属性的数据值。默认值为undefined。
+    * 存取描述符:
+    *   1.get：在读取属性时调用的函数，默认值是undefined
+    *   2.set：在写入属性的时候调用的函数，默认值是undefined
+    *
+    *
     * */
     var obj = {};
     var inputVal = document.getElementById("bindinput");
@@ -34,6 +65,29 @@
     inputVal.addEventListener('input', function (e) {
         obj.name = e.target.value;
     });
+    // var book = {
+    //     _year : 2004,
+    //     edition : 1
+    // }
+    //
+    // Object.defineProperty(book,"year",{
+    //     get: function(){
+    //         return this._year
+    //     },
+    //     set: function(newYear){
+    //         if(newYear > 2004){
+    //             this._year = newYear;
+    //             this.edition += newYear - 2004
+    //         }
+    //     }
+    // })
+    //
+    // book.year = 2005;
+    // console.log(book.edition); // 2
+    // console.log(book._year); //2005
+    //由于get方法返回_year的值，set方法通过计算来确定正确的版本。
+   // 因此把year的值设置为2005会导致edition的值变为2.
+
 </script>
 
 
