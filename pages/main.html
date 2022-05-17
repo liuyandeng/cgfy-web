@@ -17,7 +17,21 @@
 		<script src="../hplus/js/content.js"></script>
 		<!-- 欢迎信息 -->
 <!--		<script src="../hplus/js/welcome.js"></script>-->
-		<script></script>
+		<script>
+			function openPage(url){
+				//iframe 层
+				layer.open({
+					type: 2,
+					title: '很多时候，我们想最大化看，比如像这个页面。',
+					shadeClose: true,
+					shade: false,
+					maxmin: true, //开启最大化最小化按钮
+					area: ['893px', '600px'],
+					content: url
+				});
+			}
+
+		</script>
 	</head>
 
 	<body class="gray-bg">
@@ -57,10 +71,10 @@
 					功能清单
 				</h2>
 				<p><a href="enwords_table.html" target="_blank">单词表</a></p>
-				<p><a href="video.html" target="_blank">播放器</a></p>
-				<p><a href="layer_tree.html" target="_blank">弹框树</a></p>
-				<p><a href="select2_page.html" target="_blank">选择框</a></p>
-				<p><a href="two_bind.html" target="_blank">双向绑定</a></p>
+				<p><a href="JavaScript:openPage('video.html')">播放器</a></p>
+				<p><a href="JavaScript:openPage('layer_tree.html')" >弹框树</a></p>
+				<p><a href="JavaScript:openPage('select2_page.html')" >选择框</a></p>
+				<p><a href="JavaScript:openPage('two_bind.html')" >双向绑定</a></p>
 			</div>
 
 		</div>
