@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Tagsinput Checkbox</title>
+    <!--https://www.jb51.net/article/170548.htm-->
+    <link rel="stylesheet" type="text/css" href="../plugins/jquery_tagsinput/css/jquery.tagsinput.css" >
+    <script type="text/javascript" src="../js/jquery-3.2.1.js"></script>
+    <script src="../plugins/jquery_tagsinput/js/jquery.tagsinput.min.js" ></script>
+</head>
+
+
+<body>
+<!--业务需求：可以根据checkbox的先后勾选传递有顺序的值让后台接收，决定用tagsinput显示checkbox的先后勾选顺序，并实时响应checkbox的勾选状态-->
+<!--思路：checkbox的值存在一个数组A，新创建一个数组B，如果选中一个，B push一个值，取消一个，remove一个值，因为数组是有序的，就做到响应checkbox的勾选顺序-->
+<h3>记录checkbox勾选的顺序</h3>
+checkbox:	<input type="checkbox" value="0" name="fruit" onclick="radioHandle(this.value)" />Apple
+<input type="checkbox" value="1" name="fruit" onclick="radioHandle(this.value)" />Banana
+<input type="checkbox" value="2" name="fruit" onclick="radioHandle(this.value)" />Pear
+<input type="checkbox" value="3" name="fruit" onclick="radioHandle(this.value)" />Orange
+<br><br>
+<input type="text" id="fruit-tags" name="fruit-tags" >
+<input type="text" id="fruitChecked">
+<script type="text/javascript">
+    var fruitValue = new Array();
+    var fruitName = ['Apple','Banana','Pear','Orange'];
+
+    Array.prototype.removeByValue = function(val) {
+        for(var i=0; i<this.length; i++) {
+            if(this[i] == val) {
+                this.splice(i, 1);
+                break;
+            }
+        }
+    };
+
+
+    $('#fruit-tags').tagsInput({
+        interactive: false,
+        removeWithBackspace: false,
+        onRemoveTag:  function(value){
+            //重点 通过值获得数组的索引
+            //删除  checkbox不勾选 数组remove值 显示改变
+            var index = fruitName.indexOf(value);
+            $("input:checkbox[name=fruit][value="+index+"]").prop("checked",false);
+            fruitValue.removeByValue(index);
+            $('#fruitChecked').val(fruitValue.toString());
+        }
+    });
+
+    function radioHandle(value){
+        // --- 选中 push--
+        if($("input:checkbox[name=fruit][value="+value+"]").is(':checked')){
+            if($('#fruitChecked').val().indexOf(value) == -1){
+                fruitValue.push(value);
+                $('#fruit-tags').addTag(fruitName[parseInt(value)]);
+            }
+        }else{
+            if($('#fruitChecked').val().indexOf(value) > -1){
+                fruitValue.removeByValue(value);
+                $('#fruit-tags').removeTag(fruitName[parseInt(value)]);
+            }
+        }
+        $('#fruitChecked').val(fruitValue.toString());
+    }
+
+
+</script>
+
+<h3>checkbox练习</h3>
+<div><input type="checkbox" name="checkbox" value="111" onchange="change()" /><span>张三</span></div>
+<div><input type="checkbox" name="checkbox" value="222" onchange="change()" /><span>李四</span></div>
+<div><input type="checkbox" name="checkbox" value="333" onchange="change()" /><span>王五</span></div>
+<h3 id="selected"></h3>
+<script>
+    //https://www.csdn.net/tags/MtTaEg0sMjU2MjctYmxvZwO0O0OO0O0O.html
+    function change(){
+        var obj=document.getElementsByName("checkbox")
+        var value = new Array();
+        for(var i = 0; i < obj.length; i++){
+            if(obj[i].checked)
+                value.push(obj[i].value);
+        }
+        $("#selected").html(value.toString())
+
+    }
+
+</script>
+</body>
+</html>

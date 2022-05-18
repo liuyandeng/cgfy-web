@@ -8,26 +8,6 @@
 </head>
 
 <body>
-<div><input type="checkbox" id="checkbox" onchange="change(this)" /><span>张三</span></div>
-<h3 id="selected"></h3>
-<script>
-    var object = {};
-    var checkboxVal = document.getElementById("checkbox");
-    var selected = document.getElementById("selected");
-    Object.defineProperty(object, "name", {
-        set: function (newVal) {
-            checkboxVal.value = newVal;
-            selected.innerHTML = newVal;
-        }
-    });
-    checkboxVal.addEventListener('change', function (e) {
-        object.name = e.target.value;
-    });
-
-</script>
-
-
-
 <h3>通过Object.defineProperty实现双向数据绑定</h3>
 <input type="text" id="bindinput"/>
 <h3 id="app"></h3>
@@ -53,18 +33,24 @@
     *
     *
     * */
+
     var obj = {};
-    var inputVal = document.getElementById("bindinput");
     var div = document.getElementById("app");
     Object.defineProperty(obj, "name", {
         set: function (newVal) {
-            inputVal.value = newVal;
+            //inputVal.value = newVal;
             div.innerHTML = newVal;
         }
     });
+    var inputVal = document.getElementById("bindinput");
+    //通过监听input值,给obj的name属性赋值,进而触发set方法,给div.innerHTML赋值
     inputVal.addEventListener('input', function (e) {
         obj.name = e.target.value;
     });
+
+
+
+
     // var book = {
     //     _year : 2004,
     //     edition : 1
