@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <title>Tagsinput Checkbox</title>
@@ -16,10 +16,11 @@
 <!--思路：checkbox的值存在一个数组A，新创建一个数组B，如果选中一个，B push一个值，取消一个，remove一个值，因为数组是有序的，就做到响应checkbox的勾选顺序-->
 <h3>记录checkbox勾选的顺序</h3>
 checkbox:
-<input type="checkbox" id="Apple" name="fruit" value="苹果" onclick="checkedHandle(this)" />苹果
-<input type="checkbox" id="Pear" name="fruit" value="梨" onclick="checkedHandle(this)" />梨
-<input type="checkbox" id="Banana" name="fruit" value="香蕉" onclick="checkedHandle(this)" />香蕉
-<input type="checkbox" id="Orange" name="fruit" value="橘子" onclick="checkedHandle(this)" />橘子
+<!--注意:id要保持唯一性-->
+<input type="checkbox" id="Apple" name="fruit" value="苹果" onclick="checkedHandle(this)" >苹果</input>
+<input type="checkbox" id="Pear" name="fruit" value="梨" onclick="checkedHandle(this)" >梨</input>
+<input type="checkbox" id="Banana" name="fruit" value="香蕉" onclick="checkedHandle(this)" >香蕉</input>
+<input type="checkbox" id="Orange" name="fruit" value="橘子" onclick="checkedHandle(this)" >橘子</input>
 <br><br>
 <input type="text" id="fruit-tags" name="fruit-tags" >
 <input type="text" id="fruitChecked">
@@ -37,8 +38,9 @@ checkbox:
             //重点 通过值获得数组的索引
             //删除  checkbox不勾选 数组remove值 显示改变
             var index = fruitName.indexOf(tag);
-            $("input:checkbox[name=fruit]").eq(index).prop("checked",false);
-            fruitValue.removeByValue(tag);
+            var box=$("input:checkbox[name=fruit]").eq(index);
+            box.prop("checked",false);
+            fruitValue.removeBy(box.attr("id"));
             $('#fruitChecked').val(fruitValue.toString());
         }
     });
@@ -55,7 +57,7 @@ checkbox:
             var indexof=$('#fruitChecked').val().indexOf(idVal);
             if(indexof> -1){
                 $('#fruit-tags').removeTag($(obj).val());
-                fruitValue.removeByValue(idVal);
+                fruitValue.removeBy(idVal);//通过id移除
             }
         }
         $('#fruitChecked').val(fruitValue.toString());
@@ -67,7 +69,7 @@ checkbox:
      * howmany	可选。规定应该删除多少元素。必须是数字，但可以是 "0"。如果未规定此参数，则删除从 index 开始到原数组结尾的所有元素。
      * item1, ..., itemX	可选。要添加到数组的新元素
      */
-    Array.prototype.removeByValue = function(val) {
+    Array.prototype.removeBy = function(val) {
         for(var i=0; i<this.length; i++) {
             if(this[i] == val) {
                 this.splice(i, 1);
