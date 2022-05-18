@@ -15,17 +15,58 @@
 <!--业务需求：可以根据checkbox的先后勾选传递有顺序的值让后台接收，决定用tagsinput显示checkbox的先后勾选顺序，并实时响应checkbox的勾选状态-->
 <!--思路：checkbox的值存在一个数组A，新创建一个数组B，如果选中一个，B push一个值，取消一个，remove一个值，因为数组是有序的，就做到响应checkbox的勾选顺序-->
 <h3>记录checkbox勾选的顺序</h3>
-checkbox:	<input type="checkbox" value="0" name="fruit" onclick="radioHandle(this)" />Apple
-<input type="checkbox" value="1" name="fruit" onclick="radioHandle(this)" />Banana
-<input type="checkbox" value="2" name="fruit" onclick="radioHandle(this)" />Pear
-<input type="checkbox" value="3" name="fruit" onclick="radioHandle(this)" />Orange
+checkbox:
+<input type="checkbox" id="Apple" name="fruit" value="Apple" onclick="checkedHandle(this)" />Apple
+<input type="checkbox" id="Pear" name="fruit" value="Pear" onclick="checkedHandle(this)" />Pear
+<input type="checkbox" id="Banana" name="fruit" value="Banana" onclick="checkedHandle(this)" />Banana
+<input type="checkbox" id="Orange" name="fruit" value="Orange" onclick="checkedHandle(this)" />Orange
 <br><br>
 <input type="text" id="fruit-tags" name="fruit-tags" >
 <input type="text" id="fruitChecked">
 <script type="text/javascript">
     var fruitValue = new Array();
-    var fruitName = ['Apple','Banana','Pear','Orange'];
+    var fruitName = [];
+    var fruits = document.getElementsByName("fruit");
+    fruits.forEach(function (e){
+        fruitName.push(e.value);
+    })
+    $('#fruit-tags').tagsInput({
+        interactive: false,
+        removeWithBackspace: false,
+        onRemoveTag:  function(tag){
+            //重点 通过值获得数组的索引
+            //删除  checkbox不勾选 数组remove值 显示改变
+            var index = fruitName.indexOf(tag);
+            $("input:checkbox[name=fruit]").eq(index).prop("checked",false);
+            fruitValue.removeByValue(tag);
+            $('#fruitChecked').val(fruitValue.toString());
+        }
+    });
 
+    function checkedHandle(obj){
+        var idVal=$(obj).attr("id");
+        // --- 选中 push--
+        if($(obj).is(':checked')){//选中
+            if($('#fruitChecked').val().indexOf(idVal) == -1){//没有匹配
+                $('#fruit-tags').addTag($(obj).val());
+                fruitValue.push(idVal);
+            }
+        }else{//取消选中
+            var indexof=$('#fruitChecked').val().indexOf(idVal);
+            if(indexof> -1){
+                $('#fruit-tags').removeTag($(obj).val());
+                fruitValue.removeByValue(idVal);
+            }
+        }
+        $('#fruitChecked').val(fruitValue.toString());
+    }
+
+    /**
+     * array.splice(index,howmany,item1,.....,itemX)
+     * index 	必需。规定从何处添加/删除元素。 该参数是开始插入和（或）删除的数组元素的下标，必须是数字。
+     * howmany	可选。规定应该删除多少元素。必须是数字，但可以是 "0"。如果未规定此参数，则删除从 index 开始到原数组结尾的所有元素。
+     * item1, ..., itemX	可选。要添加到数组的新元素
+     */
     Array.prototype.removeByValue = function(val) {
         for(var i=0; i<this.length; i++) {
             if(this[i] == val) {
@@ -35,36 +76,6 @@ checkbox:	<input type="checkbox" value="0" name="fruit" onclick="radioHandle(thi
         }
     };
 
-
-    $('#fruit-tags').tagsInput({
-        interactive: false,
-        removeWithBackspace: false,
-        onRemoveTag:  function(value){
-            //重点 通过值获得数组的索引
-            //删除  checkbox不勾选 数组remove值 显示改变
-            var index = fruitName.indexOf(value);
-            $("input:checkbox[name=fruit][value="+index+"]").prop("checked",false);
-            fruitValue.removeByValue(index);
-            $('#fruitChecked').val(fruitValue.toString());
-        }
-    });
-
-    function radioHandle(obj){
-        var value=$(obj).val();
-        // --- 选中 push--
-        if($(obj).is(':checked')){
-            if($('#fruitChecked').val().indexOf(value) == -1){
-                fruitValue.push(value);
-                $('#fruit-tags').addTag(fruitName[parseInt(value)]);
-            }
-        }else{
-            if($('#fruitChecked').val().indexOf(value) > -1){
-                fruitValue.removeByValue(value);
-                $('#fruit-tags').removeTag(fruitName[parseInt(value)]);
-            }
-        }
-        $('#fruitChecked').val(fruitValue.toString());
-    }
 
 
 </script>
