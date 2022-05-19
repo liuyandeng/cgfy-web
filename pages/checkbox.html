@@ -7,7 +7,7 @@
     <!--http://www.jq22.com-->
     <link rel="stylesheet" type="text/css" href="../plugins/jquery_tagsinput/css/jquery.tagsinput.css" >
     <script type="text/javascript" src="../js/jquery-3.2.1.js"></script>
-    <script src="../plugins/jquery_tagsinput/js/jquery.tagsinput.min.js" ></script>
+    <script src="../plugins/jquery_tagsinput/js/jquery.tagsinput.js" ></script>
 </head>
 
 
@@ -15,28 +15,24 @@
 <!--业务需求：可以根据checkbox的先后勾选传递有顺序的值让后台接收，决定用tagsinput显示checkbox的先后勾选顺序，并实时响应checkbox的勾选状态-->
 <!--思路：checkbox的值存在一个数组A，新创建一个数组B，如果选中一个，B push一个值，取消一个，remove一个值，因为数组是有序的，就做到响应checkbox的勾选顺序-->
 <h3>记录checkbox勾选的顺序</h3>
-checkbox:
 <!--注意:id要保持唯一性-->
-<input type="checkbox" id="Apple" name="fruit" value="苹果" onclick="checkedHandle(this)" >苹果</input>
-<input type="checkbox" id="Pear" name="fruit" value="梨" onclick="checkedHandle(this)" >梨</input>
-<input type="checkbox" id="Banana" name="fruit" value="香蕉" onclick="checkedHandle(this)" >香蕉</input>
-<input type="checkbox" id="Orange" name="fruit" value="橘子" onclick="checkedHandle(this)" >橘子</input>
+<div><input type="checkbox" id="Apple" name="fruit" value="Apple" onclick="checkedHandle(this)" />苹果</div>
+<div><input type="checkbox" id="Pear" name="fruit" value="Pear" onclick="checkedHandle(this)" />梨</div>
+<div><input type="checkbox" id="Banana" name="fruit" value="Banana" onclick="checkedHandle(this)" />香蕉</div>
+<div><input type="checkbox" id="Orange" name="fruit" value="Orange" onclick="checkedHandle(this)" />橘子</div>
 <br><br>
 <input type="text" id="fruit-tags" name="fruit-tags" >
 <input type="text" id="fruitChecked">
 <script type="text/javascript">
-    var fruitValue = new Array();
     var fruitName = [];
-    var fruits = document.getElementsByName("fruit");
-    fruits.forEach(function (e){
-        fruitName.push(e.value);
+    document.getElementsByName("fruit").forEach(function (obj){
+        fruitName.push($(obj).parent("div").text());
     })
     $('#fruit-tags').tagsInput({
         interactive: false,
         removeWithBackspace: false,
         onRemoveTag:  function(tag){
-            //重点 通过值获得数组的索引
-            //删除  checkbox不勾选 数组remove值 显示改变
+            //重点 通过值获得数组的索引//////////////////////缺陷,名称同名
             var index = fruitName.indexOf(tag);
             var box=$("input:checkbox[name=fruit]").eq(index);
             box.prop("checked",false);
@@ -45,18 +41,20 @@ checkbox:
         }
     });
 
+
+    var fruitValue = new Array();
     function checkedHandle(obj){
         var idVal=$(obj).attr("id");
         // --- 选中 push--
         if($(obj).is(':checked')){//选中
             if($('#fruitChecked').val().indexOf(idVal) == -1){//没有匹配
-                $('#fruit-tags').addTag($(obj).val());
+                $('#fruit-tags').addTag($(obj).parent("div").text());
                 fruitValue.push(idVal);
             }
         }else{//取消选中
             var indexof=$('#fruitChecked').val().indexOf(idVal);
             if(indexof> -1){
-                $('#fruit-tags').removeTag($(obj).val());
+                $('#fruit-tags').removeTag($(obj).parent("div").text());
                 fruitValue.removeBy(idVal);//通过id移除
             }
         }
@@ -79,26 +77,6 @@ checkbox:
     };
 
 
-
-</script>
-
-<h3>checkbox练习</h3>
-<div><input type="checkbox" name="checkbox" value="111" onchange="change()" /><span>张三</span></div>
-<div><input type="checkbox" name="checkbox" value="222" onchange="change()" /><span>李四</span></div>
-<div><input type="checkbox" name="checkbox" value="333" onchange="change()" /><span>王五</span></div>
-<h3 id="selected"></h3>
-<script>
-    //https://www.csdn.net/tags/MtTaEg0sMjU2MjctYmxvZwO0O0OO0O0O.html
-    function change(){
-        var obj=document.getElementsByName("checkbox")
-        var value = new Array();
-        for(var i = 0; i < obj.length; i++){
-            if(obj[i].checked)
-                value.push(obj[i].value);
-        }
-        $("#selected").html(value.toString())
-
-    }
 
 </script>
 </body>

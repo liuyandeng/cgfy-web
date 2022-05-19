@@ -3,27 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <title>Tagsinput Checkbox</title>
-    <!--https://www.jb51.net/article/170548.htm-->
-    <!--http://www.jq22.com-->
     <script type="text/javascript" src="../js/jquery-3.2.1.js"></script>
     <link rel="stylesheet" href="../plugins/bootstrap_3.4.1/css/bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" href="../plugins/bootstrap_tagsinput/bootstrap-tagsinput.css" >
     <script src="../plugins/bootstrap_3.4.1/js/bootstrap.min.js"></script>
     <script src="../plugins/bootstrap_tagsinput/bootstrap-tagsinput.js" ></script>
-
+    <!--http://www.htmleaf.com/jQuery/Form/201805075108.html -->
     <script>
         $(function(){
             $('input').on('beforeItemAdd', function(event) {
-                alert(event.item);
             });
         })
+
     </script>
 </head>
+
 <body>
 <h3>input形式</h3>
-<input type="text" data-role="tagsinput" value="jQuery,Script,Net">
+<input type="text" id="tagsinput" data-role="tagsinput" value="">
 
-
-
+<div><input type="checkbox" name="direction" value="zhangsan"/>张三</div>
+<div><input type="checkbox" name="direction" value="lisi"/>李四</div>
+<div><input type="checkbox" name="direction" value="wangwu"/>王五</div>
+<div><input type="checkbox" name="direction" value="zhaoliu"/>赵六</div>
+<div id="checked"></div>
 </body>
+<script>
+
+    let chooseCheckbox = new Array();   //定义选中数组
+    $("input[name='direction']").click(function () {
+        let value = $(this).val();  //当前复选框的值
+        let index = $.inArray(value, chooseCheckbox); //返回指定值在数组中的索引。如果没有找到，则返回 -1
+        let isChecked = $(this).prop('checked');    //是否选中
+        if (isChecked) { //如果选中
+            if (index == -1) {  //不存在，把值压入数组尾部
+                $("#tagsinput").tagsinput('add', value);
+                chooseCheckbox.push(value);
+            }
+        } else {    //如果取消
+            if (index != -1) {  //数组中存在，移除数组指定元素(当前点击复选框的值)
+                chooseCheckbox.splice($.inArray(value, chooseCheckbox), 1);
+                $("#tagsinput").tagsinput('remove', value);
+            }
+        }
+        $("#checked").html(JSON.stringify(chooseCheckbox))
+    });
+
+</script>
 </html>
