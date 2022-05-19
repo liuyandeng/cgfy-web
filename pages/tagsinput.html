@@ -14,9 +14,7 @@
     <script>
         $(function(){
             $('input').on('beforeItemAdd', function(event) {
-                // event.item: contains the item
-                // event.cancel: set to true to prevent the item getting added
-                return "123456"
+                alert(event.item);
             });
         })
     </script>
