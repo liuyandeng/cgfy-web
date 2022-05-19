@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Tagsinput Checkbox</title>
+    <!--https://www.jb51.net/article/170548.htm-->
+    <!--http://www.jq22.com-->
+    <script type="text/javascript" src="../js/jquery-3.2.1.js"></script>
+    <link rel="stylesheet" href="../plugins/bootstrap_3.4.1/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="../plugins/bootstrap_tagsinput/bootstrap-tagsinput.css" >
+    <script src="../plugins/bootstrap_3.4.1/js/bootstrap.min.js"></script>
+    <script src="../plugins/bootstrap_tagsinput/bootstrap-tagsinput.js" ></script>
+
+    <script>
+        $(function(){
+            $('input').on('beforeItemAdd', function(event) {
+                // event.item: contains the item
+                // event.cancel: set to true to prevent the item getting added
+                return "123456"
+            });
+        })
+    </script>
+</head>
+<body>
+<h3>input形式</h3>
+<input type="text" data-role="tagsinput" value="jQuery,Script,Net">
+
+
+
+</body>
+</html>
