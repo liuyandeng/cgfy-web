@@ -1,5 +1,6 @@
 /*
- * JQuery zTree exedit v3.5.40
+ * JQuery zTree exedit
+ * v3.5.48
  * http://treejs.cn/
  *
  * Copyright (c) 2010 Hunter.z
@@ -7,9 +8,9 @@
  * Licensed same as jquery - MIT License
  * http://www.opensource.org/licenses/mit-license.php
  *
- * email: hunter.z@263.net
- * Date: 2019-01-18
+ * Date: 2020-11-21
  */
+
 (function ($) {
   //default consts of exedit
   var _consts = {
@@ -246,7 +247,10 @@
       setSonNodeLevel: function (setting, parentNode, node) {
         if (!node) return;
         var children = data.nodeChildren(setting, node);
+        var oldLevel = node.level;
         node.level = (parentNode) ? parentNode.level + 1 : 0;
+        view.repairNodeLevelClass(setting, node, oldLevel);
+        
         if (!children) return;
         for (var i = 0, l = children.length; i < l; i++) {
           if (children[i]) data.setSonNodeLevel(setting, node, children[i]);
@@ -1059,11 +1063,11 @@
           tmp_ulObj.css("display", "none");
 
         } else if (oldNeighbor) {
-          //old neigbor node
+          //old neighbor node
           view.setNodeLineIcos(setting, oldNeighbor);
         }
 
-        //new neigbor node
+        //new neighbor node
         if (newNeighbor) {
           view.setNodeLineIcos(setting, newNeighbor);
         }
